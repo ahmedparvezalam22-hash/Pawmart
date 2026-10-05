@@ -1,0 +1,6 @@
+{
+  "name": "PawMart - Affiliate Product Discovery",
+  "description": "Discover trending products for pets, fashion, and books. Professional curated product discovery platform powered by Amazon.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

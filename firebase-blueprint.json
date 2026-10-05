@@ -1,0 +1,76 @@
+{
+  "entities": {
+    "products": {
+      "title": "Products",
+      "description": "Affiliate products discoverable on PawMart with Amazon links",
+      "fields": {
+        "id": { "type": "string", "description": "Unique product ID" },
+        "title": { "type": "string", "description": "Product title" },
+        "slug": { "type": "string", "description": "URL-friendly slug" },
+        "category": { "type": "string", "description": "One of Cats, Dogs, Furniture, Shoes, Wedding Collection, Jewelry Collection, Electronics, Other Products, T-Shirts, Hoodies, Books" },
+        "shortDescription": { "type": "string", "description": "Summary for cards and carousel" },
+        "description": { "type": "string", "description": "Full product description" },
+        "imageUrl": { "type": "string", "description": "Main product image URL" },
+        "galleryUrls": { "type": "array", "description": "Additional gallery media URLs" },
+        "viewsCount": { "type": "string", "description": "Custom view count display" },
+        "reviews": { "type": "array", "description": "Optional customer reviews and ratings" },
+        "amazonAffiliateLink": { "type": "string", "description": "External Amazon affiliate link" },
+        "featured": { "type": "boolean", "description": "Whether displayed in featured carousel" },
+        "published": { "type": "boolean", "description": "Whether displayed publicly" },
+        "createdAt": { "type": "string", "description": "ISO timestamp of creation" },
+        "updatedAt": { "type": "string", "description": "ISO timestamp of last update" }
+      }
+    },
+    "users": {
+      "title": "Users",
+      "description": "Registered visitor and admin accounts",
+      "fields": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "name": { "type": "string", "description": "User full name" },
+        "email": { "type": "string", "description": "User email address" },
+        "role": { "type": "string", "description": "'user' or 'admin'" },
+        "createdAt": { "type": "string", "description": "ISO timestamp of registration" }
+      }
+    },
+    "favorites": {
+      "title": "User Favorites",
+      "description": "Saved products in user wishlist",
+      "fields": {
+        "productId": { "type": "string", "description": "ID of saved product" },
+        "savedAt": { "type": "string", "description": "ISO timestamp when favorited" }
+      }
+    },
+    "blogs": {
+      "title": "Blog Posts",
+      "description": "Editorial articles, reviews, and buying guides with direct Amazon product links",
+      "fields": {
+        "id": { "type": "string", "description": "Unique blog post ID" },
+        "title": { "type": "string", "description": "Article title" },
+        "slug": { "type": "string", "description": "URL slug" },
+        "category": { "type": "string", "description": "Topic category (Cats, Dogs, Fashion, Guides, etc.)" },
+        "excerpt": { "type": "string", "description": "Brief summary for card preview" },
+        "content": { "type": "string", "description": "Full blog article text" },
+        "imageUrl": { "type": "string", "description": "Cover banner image URL" },
+        "amazonProductLink": { "type": "string", "description": "Direct Amazon link for recommended item" },
+        "amazonButtonText": { "type": "string", "description": "Custom call-to-action text on Amazon button" },
+        "author": { "type": "string", "description": "Author name" },
+        "readTime": { "type": "string", "description": "Estimated reading duration" },
+        "featured": { "type": "boolean", "description": "Highlighted on blog page" },
+        "published": { "type": "boolean", "description": "Public visibility flag" },
+        "createdAt": { "type": "string", "description": "ISO creation timestamp" },
+        "updatedAt": { "type": "string", "description": "ISO update timestamp" }
+      }
+    },
+    "subscribers": {
+      "title": "Email Subscribers",
+      "description": "Visitor email subscriptions for new product notifications",
+      "fields": {
+        "id": { "type": "string", "description": "Unique subscriber ID" },
+        "email": { "type": "string", "description": "Subscriber email address" },
+        "source": { "type": "string", "description": "Where the user subscribed from (homepage, newsletter, etc.)" },
+        "createdAt": { "type": "string", "description": "ISO timestamp of subscription" },
+        "status": { "type": "string", "description": "active or unsubscribed" }
+      }
+    }
+  }
+}
