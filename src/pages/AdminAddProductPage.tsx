@@ -11,7 +11,7 @@ export const AdminAddProductPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    document.title = 'Add New Product — PawMart Admin';
+    document.title = 'Add New Product — PawMartFinder Admin';
   }, []);
 
   const handleSubmit = async (data: Omit<Product, 'id' | 'createdAt' | 'updatedAt' | 'slug'>) => {

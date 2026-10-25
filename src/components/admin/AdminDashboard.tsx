@@ -295,7 +295,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ products }) => {
               </h3>
             </div>
             <p className="text-xs text-slate-500 mt-1">
-              All visitors who registered on PawMart. You can view their email IDs, copy emails, or export for notifications.
+              All visitors who registered on PawMartFinder. You can view their email IDs, copy emails, or export for notifications.
             </p>
           </div>
 
@@ -432,7 +432,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ products }) => {
                           </button>
 
                           <a
-                            href={`mailto:${u.email}?subject=Welcome to PawMart`}
+                            href={`mailto:${u.email}?subject=Welcome to PawMartFinder`}
                             className="p-1 text-slate-400 hover:text-amber-600 rounded-md"
                             title="Send email"
                           >
@@ -590,7 +590,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ products }) => {
                     </div>
 
                     <a
-                      href={`mailto:${sub.email}?subject=New Product Alerts from PawMart`}
+                      href={`mailto:${sub.email}?subject=New Product Alerts from PawMartFinder`}
                       className="p-1.5 rounded-lg border border-slate-200 text-slate-500 hover:text-amber-600 hover:bg-amber-50 transition-colors flex-shrink-0"
                       title="Send email"
                     >
@@ -619,7 +619,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ products }) => {
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h3 className="text-lg font-bold text-slate-900">Recent Products</h3>
-                <p className="text-xs text-slate-500 mt-0.5">Quick look at the latest items added to PawMart</p>
+                <p className="text-xs text-slate-500 mt-0.5">Quick look at the latest items added to PawMartFinder</p>
               </div>
               <Link
                 to="/admin/products"

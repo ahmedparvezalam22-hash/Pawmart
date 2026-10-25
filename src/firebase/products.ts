@@ -170,6 +170,7 @@ export const createProduct = async (
     viewsCount: data.viewsCount ? data.viewsCount.trim() : '1.6k',
     reviews: data.reviews && data.reviews.length > 0 ? data.reviews : [],
     amazonAffiliateLink: data.amazonAffiliateLink.trim(),
+    seoTags: data.seoTags || [],
     featured: Boolean(data.featured),
     published: Boolean(data.published),
     createdAt: now,
@@ -295,7 +296,7 @@ export const addReviewAdminReply = async (
       return {
         ...r,
         adminReply: {
-          author: reply.author || 'PawMart Admin',
+          author: reply.author || 'PawMartFinder Admin',
           comment: reply.comment.trim(),
           date: reply.date || new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
         },
@@ -458,7 +459,7 @@ export const seedProductsIfEmpty = async (): Promise<boolean> => {
   try {
     const snap = await getDocs(collection(db, PRODUCTS_COLLECTION));
     if (snap.empty) {
-      console.log('Seeding initial PawMart products into Firestore...');
+      console.log('Seeding initial PawMartFinder products into Firestore...');
       const batch = writeBatch(db);
       const now = new Date().toISOString();
 
@@ -472,7 +473,7 @@ export const seedProductsIfEmpty = async (): Promise<boolean> => {
       });
 
       await batch.commit();
-      console.log('PawMart products successfully seeded!');
+      console.log('PawMartFinder products successfully seeded!');
       return true;
     }
     return false;

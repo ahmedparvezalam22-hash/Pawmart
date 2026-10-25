@@ -14,7 +14,8 @@ import {
   BookOpen,
   PenTool,
   MessageSquareQuote,
-  Bell
+  Bell,
+  Globe
 } from 'lucide-react';
 import { Logo } from '../common/Logo';
 import { Link, useRouter } from '../../utils/navigation';
@@ -34,7 +35,8 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title }) => 
     { label: 'Dashboard', href: '/admin', icon: LayoutDashboard },
     { label: 'Products', href: '/admin/products', icon: Package },
     { label: 'Add Product', href: '/admin/products/add', icon: PlusCircle },
-    { label: 'Customer Reviews', href: '/admin/reviews', icon: MessageSquareQuote },
+    { label: 'Website Reviews', href: '/admin/website-reviews', icon: Globe },
+    { label: 'Product Reviews', href: '/admin/reviews', icon: MessageSquareQuote },
     { label: 'Subscribers', href: '/admin/subscribers', icon: Bell },
     { label: 'Blogs & Guides', href: '/admin/blogs', icon: BookOpen },
     { label: 'Add Blog Post', href: '/admin/blogs/add', icon: PenTool },

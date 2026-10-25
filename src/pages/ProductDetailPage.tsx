@@ -4,6 +4,9 @@ import { ProductDetails } from '../components/products/ProductDetails';
 import { getProductByIdOrSlug } from '../firebase/products';
 import { ArrowLeft, AlertCircle } from 'lucide-react';
 import { Link } from '../utils/navigation';
+import { useSEO } from '../hooks/useSEO';
+import { buildProductSchema } from '../services/seoService';
+import { getProductSEOHashtags } from '../services/seoHashtags';
 
 interface ProductDetailPageProps {
   identifier: string; // id or slug
@@ -16,6 +19,20 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
 }) => {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
+
+  const seoHashtags = product ? getProductSEOHashtags(product) : null;
+
+  useSEO({
+    title: product ? `${product.title}` : 'Product Details',
+    description: product
+      ? product.shortDescription || product.description.slice(0, 150)
+      : 'Explore curated trending product details on PawMartFinder with verified Amazon partner links.',
+    canonicalPath: product ? `/product/${product.slug || product.id}` : `/product/${identifier}`,
+    ogImage: product?.imageUrl,
+    ogType: 'product',
+    keywords: seoHashtags ? seoHashtags.searchTerms : undefined,
+    jsonLd: product ? buildProductSchema(product) : undefined,
+  });
 
   useEffect(() => {
     let isMounted = true;
@@ -31,7 +48,6 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
         if (isMounted) {
           setProduct(matched);
           setLoading(false);
-          document.title = `${matched.title} — PawMart`;
         }
         return;
       }
@@ -41,9 +57,6 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
       if (isMounted) {
         setProduct(fetched);
         setLoading(false);
-        if (fetched) {
-          document.title = `${fetched.title} — PawMart`;
-        }
       }
     };
 

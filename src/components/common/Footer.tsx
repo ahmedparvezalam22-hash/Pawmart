@@ -19,7 +19,7 @@ export const Footer: React.FC = () => {
               Discover Products You'll Love
             </p>
             <p className="text-slate-400 text-sm leading-relaxed max-w-sm">
-              PawMart is an independent curated product discovery platform for pet owners, fashion enthusiasts, and readers. We discover, review, and organize trending items available on Amazon.
+              PawMartFinder is an independent curated product discovery platform for pet owners, fashion enthusiasts, and readers. We discover, review, and organize trending items available on Amazon.
             </p>
             <div className="pt-2 text-xs text-slate-500 flex flex-col gap-2">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700/60 text-slate-400 font-medium w-fit">
@@ -28,7 +28,7 @@ export const Footer: React.FC = () => {
               <p className="text-xs text-slate-400">
                 <span className="font-semibold text-slate-300">Email: </span>
                 <a
-                  href="mailto:supportpawmart@gmail.com?subject=Support%20Inquiry%20from%20PawMart"
+                  href="mailto:supportpawmart@gmail.com?subject=Support%20Inquiry%20from%20PawMartFinder"
                   className="text-amber-400 hover:underline font-mono"
                   title="Click to email supportpawmart@gmail.com"
                 >
@@ -67,6 +67,11 @@ export const Footer: React.FC = () => {
               <li>
                 <Link to="/skin-care" className="text-slate-400 hover:text-amber-400 transition-colors">
                   Skin Care
+                </Link>
+              </li>
+              <li>
+                <Link to="/phone-cases" className="text-slate-400 hover:text-amber-400 transition-colors">
+                  Phone Cases
                 </Link>
               </li>
               <li>
@@ -192,6 +197,17 @@ export const Footer: React.FC = () => {
                   Store Disclosure
                 </Link>
               </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => window.dispatchEvent(new CustomEvent('open-ios-guide'))}
+                  className="text-slate-400 hover:text-amber-400 transition-colors inline-flex items-center gap-1.5 text-left py-0.5"
+                  title="Quick Access guide for iPhone, Android, Tablet, and PC"
+                >
+                  <span>iPhone & Device Quick Access</span>
+                  <span className="text-[10px] bg-slate-800 text-amber-400 border border-slate-700 px-1.5 py-0.5 rounded font-mono">iOS • Android</span>
+                </button>
+              </li>
             </ul>
           </div>
 
@@ -201,12 +217,12 @@ export const Footer: React.FC = () => {
         <div className="mt-12 pt-8 border-t border-slate-800">
           <div className="rounded-xl bg-slate-800/40 p-4 border border-slate-800 text-xs text-slate-400 leading-relaxed">
             <span className="font-semibold text-slate-300">Store Disclosure: </span>
-            PawMart participates in partner programs. When you click certain links and make a purchase, we may earn a referral commission at no additional cost to you. Product prices and availability are accurate as of the date/time indicated and are subject to change. Any price and availability information displayed on Amazon at the time of purchase will apply to the purchase of this product.
+            PawMartFinder participates in partner programs. When you click certain links and make a purchase, we may earn a referral commission at no additional cost to you. Product prices and availability are accurate as of the date/time indicated and are subject to change. Any price and availability information displayed on Amazon at the time of purchase will apply to the purchase of this product.
           </div>
 
           <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
             <div className="flex items-center gap-4 flex-wrap">
-              <p>© 2026 PawMart. All rights reserved.</p>
+              <p>© 2026 PawMartFinder. All rights reserved.</p>
               <LanguageSelector variant="footer" />
             </div>
             <p className="flex items-center gap-4">

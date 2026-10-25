@@ -84,7 +84,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, adminMode = fal
         </h2>
         <p className="text-slate-500 text-sm mt-1">
           {adminMode
-            ? 'Enter your administrator credentials to access the PawMart management console.'
+            ? 'Enter your administrator credentials to access the PawMartFinder management console.'
             : 'Sign in to access your saved favorites and preferences.'}
         </p>
       </div>

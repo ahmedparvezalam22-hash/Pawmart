@@ -16,7 +16,7 @@ export const FavoritesPage: React.FC<FavoritesPageProps> = ({ products }) => {
   const { navigate } = useRouter();
 
   useEffect(() => {
-    document.title = 'My Favorites — PawMart';
+    document.title = 'My Favorites — PawMartFinder';
   }, []);
 
   const savedProducts = products.filter((p) => favoriteIds.includes(p.id));

@@ -71,6 +71,23 @@
         "createdAt": { "type": "string", "description": "ISO timestamp of subscription" },
         "status": { "type": "string", "description": "active or unsubscribed" }
       }
+    },
+    "website_reviews": {
+      "title": "Website Reviews",
+      "description": "Visitor and admin customized testimonials and star ratings for the PawMartFinder platform",
+      "fields": {
+        "id": { "type": "string", "description": "Unique review ID" },
+        "author": { "type": "string", "description": "Name of the reviewer" },
+        "authorEmail": { "type": "string", "description": "Optional email of reviewer" },
+        "rating": { "type": "number", "description": "Rating score between 1 and 5" },
+        "title": { "type": "string", "description": "Review headline" },
+        "comment": { "type": "string", "description": "Review feedback comment" },
+        "location": { "type": "string", "description": "Location or shopper badge text" },
+        "date": { "type": "string", "description": "Human readable date string" },
+        "isCustomAdmin": { "type": "boolean", "description": "Whether customized by admin" },
+        "verified": { "type": "boolean", "description": "Verified shopper badge" },
+        "createdAt": { "type": "string", "description": "ISO creation timestamp" }
+      }
     }
   }
 }

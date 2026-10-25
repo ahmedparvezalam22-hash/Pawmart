@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Save, Eye, X, AlertCircle, Star, Plus, Trash2, MessageSquareQuote } from 'lucide-react';
+import { Save, Eye, X, AlertCircle, Star, Plus, Trash2, MessageSquareQuote, Hash } from 'lucide-react';
 import { Product, ProductCategory, ProductReview } from '../../types';
 import { MediaGalleryUploader } from './MediaGalleryUploader';
 import { useRouter } from '../../utils/navigation';
+import { parseTagsInput } from '../../services/seoHashtags';
 
 interface ProductFormProps {
   initialProduct?: Product;
@@ -30,6 +31,11 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       : []
   );
   const [amazonAffiliateLink, setAmazonAffiliateLink] = useState(initialProduct?.amazonAffiliateLink || '');
+  const [seoTagsInput, setSeoTagsInput] = useState<string>(
+    initialProduct?.seoTags && initialProduct.seoTags.length > 0
+      ? initialProduct.seoTags.join(', ')
+      : ''
+  );
   const [featured, setFeatured] = useState<boolean>(initialProduct ? initialProduct.featured : false);
   const [published, setPublished] = useState<boolean>(initialProduct ? initialProduct.published : true);
   const [viewsCount, setViewsCount] = useState<string>(initialProduct?.viewsCount || '1.6k');
@@ -45,6 +51,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     'Dogs',
     'Kids Toys',
     'Skin Care',
+    'Phone Cases',
     'Furniture',
     'Shoes',
     'Wedding Collection',
@@ -151,6 +158,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       viewsCount: viewsCount.trim() || undefined,
       reviews: validReviews.length > 0 ? validReviews : [],
       amazonAffiliateLink: amazonAffiliateLink.trim(),
+      seoTags: parseTagsInput(seoTagsInput),
       featured,
       published: publishImmediate !== undefined ? publishImmediate : published,
     });
@@ -279,13 +287,66 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         </p>
       </div>
 
-      {/* 7. Customer Reviews & Ratings (Optional) */}
+      {/* 7. Google SEO #Tags / Keywords (#ট্যাগ বক্স) */}
+      <div className="p-5 sm:p-6 rounded-2xl bg-amber-50/70 border-2 border-amber-300/80 shadow-xs space-y-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
+          <label className="block text-xs font-black uppercase tracking-wider text-slate-900 flex items-center gap-2">
+            <span className="w-6 h-6 rounded-lg bg-amber-500 text-slate-950 font-black flex items-center justify-center text-xs">
+              #
+            </span>
+            <span>7. Google SEO #Tags / Keywords (#ট্যাগ বক্স)</span>
+          </label>
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-300 w-fit">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span>Google SEO &amp; Topic Index</span>
+          </span>
+        </div>
+
+        <div className="relative">
+          <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-amber-600 font-black text-sm pointer-events-none select-none">
+            #
+          </div>
+          <input
+            type="text"
+            value={seoTagsInput}
+            onChange={(e) => setSeoTagsInput(e.target.value)}
+            placeholder="#CatBrush, #AmazonFinds, #PetCare, #SelfCleaningBrush, #TopDeals"
+            className="w-full pl-8 pr-4 py-3 bg-white border border-amber-300 rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-slate-900 placeholder:text-slate-400 shadow-2xs"
+          />
+        </div>
+
+        <p className="text-xs text-slate-600 leading-relaxed">
+          এখানে আপনার পছন্দমতো <strong>#ট্যাগ</strong> লিখুন (কমা বা স্পেস দিয়ে আলাদা করুন, যেমন: <code className="bg-amber-100 text-amber-900 px-1.5 py-0.5 rounded font-mono text-[11px]">#CatToy, #AmazonFinds, #PetCare, #TrendingDeals</code>)। এই ট্যাগগুলো সরাসরি Google SEO ইনডেক্সিং, মেটা কিওয়ার্ডস, Schema.org ডাটা এবং পোস্টের নিচের <strong>SEO Google # Topics</strong> সেকশনে প্রদর্শিত হবে।
+        </p>
+
+        {/* Live Preview of entered tags */}
+        {seoTagsInput.trim() && (
+          <div className="pt-2 border-t border-amber-200/70">
+            <span className="text-[11px] font-bold text-slate-700 block mb-1.5">
+              Live Preview (Google ও ভিজিটররা যেভাবে #ট্যাগ দেখবে):
+            </span>
+            <div className="flex flex-wrap gap-1.5">
+              {parseTagsInput(seoTagsInput).map((tag, idx) => (
+                <span
+                  key={idx}
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-900 text-amber-400 shadow-2xs"
+                >
+                  <Hash className="w-3 h-3 text-amber-400" />
+                  <span>{tag.replace(/^#/, '')}</span>
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* 8. Customer Reviews & Ratings (Optional) */}
       <div className="pt-4 border-t border-slate-100 space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <label className="block text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
               <MessageSquareQuote className="w-4 h-4 text-amber-500" />
-              <span>7. Customer Reviews & Ratings</span>
+              <span>8. Customer Reviews & Ratings</span>
               <span className="text-[10px] text-slate-400 font-normal lowercase">(optional)</span>
             </label>
             <p className="text-xs text-slate-500 mt-0.5">

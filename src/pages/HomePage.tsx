@@ -4,12 +4,17 @@ import { CategorySection } from '../components/home/CategorySection';
 import { ProductCarousel } from '../components/home/ProductCarousel';
 import { LatestProducts } from '../components/home/LatestProducts';
 import { HomeBlogSection } from '../components/home/HomeBlogSection';
+import { WebsiteReviewsSection } from '../components/home/WebsiteReviewsSection';
+import { FAQSection } from '../components/common/FAQSection';
 import { Product } from '../types';
 import { ShieldCheck, Truck, Sparkles, ExternalLink, ArrowRight, HeartHandshake, CheckCircle2, Search, Send, Bell } from 'lucide-react';
 import { Link } from '../utils/navigation';
 import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import { addSubscriber } from '../firebase/subscribersService';
+import { trackLeadConversion, trackCategoryNavigation, getActiveAdAttribution } from '../services/adTracking';
+import { useSEO } from '../hooks/useSEO';
+import { buildHomeSchema } from '../services/seoService';
 
 interface HomePageProps {
   products: Product[];
@@ -19,16 +24,22 @@ interface HomePageProps {
 export const HomePage: React.FC<HomePageProps> = ({ products, loading }) => {
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterSubscribed, setNewsletterSubscribed] = useState(false);
+  const adTraffic = getActiveAdAttribution();
 
-  useEffect(() => {
-    document.title = "PawMart — Discover Products You'll Love";
-  }, []);
+  useSEO({
+    title: "PawMartFinder — Curated Products for Pets, Tech & Lifestyle",
+    description: "Discover curated trending products for pets, fashion, phone cases, and top books on PawMartFinder. Handpicked, verified quality picks powered by Amazon.",
+    canonicalPath: '/',
+    ogType: 'website',
+    jsonLd: buildHomeSchema(),
+  });
 
   const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const cleanEmail = newsletterEmail.trim();
     if (cleanEmail) {
       setNewsletterSubscribed(true);
+      trackLeadConversion('home_newsletter');
       try {
         await addSubscriber(cleanEmail, 'home_newsletter');
       } catch (err) {
@@ -42,6 +53,37 @@ export const HomePage: React.FC<HomePageProps> = ({ products, loading }) => {
     <div className="min-h-screen bg-slate-50">
       {/* 1. Hero Section */}
       <Hero products={products} />
+
+      {/* 1.25. LPO High-Converting Multi-Device Reassurance Strip */}
+      <div className="bg-slate-900 border-b border-slate-800 text-slate-300 py-2.5 px-4">
+        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse flex-shrink-0" />
+            <span className="font-bold text-white">
+              {adTraffic?.utm_source
+                ? `Special Welcome from ${adTraffic.utm_source.toUpperCase()}!`
+                : 'Curated Amazon Deals Platform'}
+            </span>
+            <span className="text-slate-400 hidden sm:inline">
+              — Handpicked quality picks with official Amazon pricing
+            </span>
+          </div>
+          <div className="flex items-center gap-4 text-xs font-semibold">
+            <span className="flex items-center gap-1 text-amber-400">
+              <Truck className="w-3.5 h-3.5" />
+              <span>Fast Prime Delivery</span>
+            </span>
+            <span className="flex items-center gap-1 text-emerald-400">
+              <ShieldCheck className="w-3.5 h-3.5" />
+              <span>A-to-z Amazon Protection</span>
+            </span>
+            <span className="flex items-center gap-1 text-slate-300 hidden md:flex">
+              <CheckCircle2 className="w-3.5 h-3.5 text-blue-400" />
+              <span>Zero Markup Guarantee</span>
+            </span>
+          </div>
+        </div>
+      </div>
 
       {/* 1.5. New Product Notification & Signup Banner */}
       <div className="bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-slate-950 py-3.5 px-4 shadow-sm border-y border-amber-600/20">
@@ -72,7 +114,7 @@ export const HomePage: React.FC<HomePageProps> = ({ products, loading }) => {
       {/* 4. Latest Products Grid */}
       <LatestProducts products={products} />
 
-      {/* 5. Professional Why Discover on PawMart Trust Section */}
+      {/* 5. Professional Why Discover on PawMartFinder Trust Section */}
       <section className="py-16 md:py-24 bg-white border-t border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
@@ -81,7 +123,7 @@ export const HomePage: React.FC<HomePageProps> = ({ products, loading }) => {
               <span>Curated Selection Standard</span>
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mt-3">
-              Why Discover Products on PawMart?
+              Why Discover Products on PawMartFinder?
             </h2>
             <p className="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
               We cut through the noise of millions of online listings to curate only the most durable, stylish, and high-value pet products, fashion apparel, and books on Amazon.
@@ -187,6 +229,12 @@ export const HomePage: React.FC<HomePageProps> = ({ products, loading }) => {
           </div>
         </div>
       </section>
+
+      {/* 7. Website Reviews & Experiences Section */}
+      <WebsiteReviewsSection />
+
+      {/* 8. Reusable FAQ Section (Pet Products & Amazon Shipping) */}
+      <FAQSection />
     </div>
   );
 };

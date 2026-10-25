@@ -5,7 +5,7 @@ import { Link } from '../utils/navigation';
 
 export const SignupPage: React.FC = () => {
   useEffect(() => {
-    document.title = 'Sign Up — PawMart';
+    document.title = 'Sign Up — PawMartFinder';
   }, []);
 
   return (

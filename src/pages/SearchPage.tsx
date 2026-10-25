@@ -5,6 +5,9 @@ import { ProductCard } from '../components/products/ProductCard';
 import { CATEGORIES } from '../services/categories';
 import { useRouter } from '../utils/navigation';
 
+import { trackAllSearch } from '../services/adTracking';
+import { useSEO } from '../hooks/useSEO';
+
 interface SearchPageProps {
   products: Product[];
 }
@@ -15,8 +18,20 @@ export const SearchPage: React.FC<SearchPageProps> = ({ products }) => {
   const [query, setQuery] = useState(initialQuery);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
 
+  useSEO({
+    title: query ? `Search: "${query}"` : 'Search Products',
+    description: 'Search curated products across pet essentials, apparel, electronics, and lifestyle books on PawMartFinder.',
+    canonicalPath: '/search',
+    noIndex: true, // Google Search Central recommendation for internal search results
+  });
+
   useEffect(() => {
-    document.title = query ? `Search: "${query}" — PawMart` : 'Search Products — PawMart';
+    if (query && query.trim().length >= 2) {
+      const timer = setTimeout(() => {
+        trackAllSearch(query.trim());
+      }, 800);
+      return () => clearTimeout(timer);
+    }
   }, [query]);
 
   const published = products.filter((p) => p.published);

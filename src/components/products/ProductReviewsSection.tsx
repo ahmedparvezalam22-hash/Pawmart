@@ -50,7 +50,7 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
 
   // Admin Reply state
   const [replyingReviewId, setReplyingReviewId] = useState<string | null>(null);
-  const [replyAuthor, setReplyAuthor] = useState('PawMart Team');
+  const [replyAuthor, setReplyAuthor] = useState('PawMartFinder Team');
   const [replyComment, setReplyComment] = useState('');
   const [submittingReply, setSubmittingReply] = useState(false);
 
@@ -68,7 +68,7 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
       setSubmittingReview(true);
       const newReview: ProductReview = {
         id: `rev-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
-        author: authorName.trim() || (isOfficialReview ? 'PawMart Team' : 'Verified Customer'),
+        author: authorName.trim() || (isOfficialReview ? 'PawMartFinder Team' : 'Verified Customer'),
         authorEmail: authorEmail.trim(),
         rating,
         title: reviewTitle.trim() || undefined,
@@ -104,7 +104,7 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
     try {
       setSubmittingReply(true);
       const replyData: ProductReviewReply = {
-        author: replyAuthor.trim() || 'PawMart Admin',
+        author: replyAuthor.trim() || 'PawMartFinder Admin',
         comment: replyComment.trim(),
         date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
       };
@@ -355,7 +355,7 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
                 className="w-4 h-4 rounded text-amber-600 focus:ring-amber-500 cursor-pointer"
               />
               <label htmlFor="officialReviewToggle" className="text-xs font-bold text-amber-900 cursor-pointer">
-                Post as Official PawMart Editorial Review / Verified Staff Pick
+                Post as Official PawMartFinder Editorial Review / Verified Staff Pick
               </label>
             </div>
           )}
@@ -502,7 +502,7 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
                             Official Store Reply
                           </span>
                           <span className="text-xs font-bold text-slate-800">
-                            {rev.adminReply.author || 'PawMart Team'}
+                            {rev.adminReply.author || 'PawMartFinder Team'}
                           </span>
                         </div>
                         {rev.adminReply.date && (
@@ -537,7 +537,7 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
                             type="text"
                             value={replyAuthor}
                             onChange={(e) => setReplyAuthor(e.target.value)}
-                            placeholder="Sign-off (e.g. PawMart Team / Parvez)"
+                            placeholder="Sign-off (e.g. PawMartFinder Team / Parvez)"
                             className="w-full px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold focus:ring-1 focus:ring-amber-500"
                           />
                           <textarea

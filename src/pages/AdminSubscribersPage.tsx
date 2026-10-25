@@ -29,7 +29,7 @@ export const AdminSubscribersPage: React.FC = () => {
   const [actionMessage, setActionMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    document.title = 'Subscribers — PawMart Admin';
+    document.title = 'Subscribers — PawMartFinder Admin';
     const unsub = subscribeToAllSubscribers((data) => {
       setSubscribers(data);
     });
@@ -299,7 +299,7 @@ export const AdminSubscribersPage: React.FC = () => {
                               </button>
 
                               <a
-                                href={`mailto:${sub.email}?subject=New Product Alerts from PawMart`}
+                                href={`mailto:${sub.email}?subject=New Product Alerts from PawMartFinder`}
                                 className="p-1.5 rounded-lg border border-slate-200 text-slate-600 hover:text-amber-600 hover:bg-amber-50 transition-colors"
                                 title="Send direct email"
                               >

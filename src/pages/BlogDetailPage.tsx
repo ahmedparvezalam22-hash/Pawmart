@@ -20,6 +20,10 @@ import {
   Check,
   X as CloseIcon
 } from 'lucide-react';
+import { useSEO } from '../hooks/useSEO';
+import { buildBlogSchema } from '../services/seoService';
+import { SEOGoogleHashtags } from '../components/common/SEOGoogleHashtags';
+import { getBlogSEOHashtags } from '../services/seoHashtags';
 
 interface BlogDetailPageProps {
   identifier: string; // Slug or ID
@@ -34,6 +38,17 @@ export const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ identifier }) =>
   const [shareSuccessMsg, setShareSuccessMsg] = useState<string | null>(null);
   const [showEmailShare, setShowEmailShare] = useState(false);
   const [recipientEmail, setRecipientEmail] = useState('');
+  const seoHashtags = blog ? getBlogSEOHashtags(blog) : null;
+
+  useSEO({
+    title: blog ? `${blog.title}` : 'Curated Guides & Articles',
+    description: blog?.excerpt || 'Discover curated pet care tips, product buying guides, and trending lifestyle picks on PawMartFinder.',
+    canonicalPath: blog ? `/blog/${blog.slug || blog.id}` : `/blog/${identifier}`,
+    ogImage: blog?.imageUrl,
+    ogType: 'article',
+    keywords: seoHashtags ? seoHashtags.searchTerms : undefined,
+    jsonLd: blog ? buildBlogSchema(blog) : undefined,
+  });
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -50,7 +65,7 @@ export const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ identifier }) =>
         setBlog(found);
         setLoading(false);
         if (found) {
-          document.title = `${found.title} — PawMart Blog`;
+          document.title = `${found.title} — PawMartFinder Blog`;
         }
       }
     };
@@ -70,12 +85,12 @@ export const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ identifier }) =>
   }, [identifier]);
 
   const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
-  const shareTitle = blog ? `${blog.title} — PawMart Guide` : 'PawMart Guide';
+  const shareTitle = blog ? `${blog.title} — PawMartFinder Guide` : 'PawMartFinder Guide';
   const encodedUrl = encodeURIComponent(shareUrl);
   const encodedTitle = encodeURIComponent(shareTitle);
   const encodedImage = encodeURIComponent(blog?.imageUrl || '');
   const emailBody = encodeURIComponent(
-    `Hi,\n\nI thought you might enjoy this guide on PawMart:\n\n${blog?.title || ''}\n\nRead it here:\n${shareUrl}`
+    `Hi,\n\nI thought you might enjoy this guide on PawMartFinder:\n\n${blog?.title || ''}\n\nRead it here:\n${shareUrl}`
   );
   const mailtoUrl = `mailto:${encodeURIComponent(recipientEmail.trim())}?subject=${encodedTitle}&body=${emailBody}`;
   const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(recipientEmail.trim())}&su=${encodedTitle}&body=${emailBody}`;
@@ -221,7 +236,7 @@ export const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ identifier }) =>
               </div>
               <div>
                 <p className="text-xs font-bold text-slate-900">{blog.author || 'Parvez'}</p>
-                <p className="text-[11px] text-slate-500">PawMart Editorial Specialist</p>
+                <p className="text-[11px] text-slate-500">PawMartFinder Editorial Specialist</p>
               </div>
             </div>
 
@@ -500,12 +515,23 @@ export const BlogDetailPage: React.FC<BlogDetailPageProps> = ({ identifier }) =>
                 Written by {blog.author || 'Parvez'}
               </h4>
               <p className="text-xs text-slate-500 mt-1 leading-relaxed">
-                PawMart lead curator and researcher. Passionate about practical pet wellness, sustainable accessories, and finding reliable products on Amazon.
+                PawMartFinder lead curator and researcher. Passionate about practical pet wellness, sustainable accessories, and finding reliable products on Amazon.
               </p>
             </div>
           </div>
 
         </div>
+
+        {/* SEO Google # Topics & Hashtags for Article */}
+        {seoHashtags && (
+          <div className="mt-8">
+            <SEOGoogleHashtags
+              tags={seoHashtags.tags}
+              rawHashtagsString={seoHashtags.rawHashtagsString}
+              category={blog.category}
+            />
+          </div>
+        )}
 
         {/* Related Articles Section */}
         {relatedBlogs.length > 0 && (

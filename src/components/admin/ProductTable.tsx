@@ -35,6 +35,7 @@ export const ProductTable: React.FC<ProductTableProps> = ({ products }) => {
     'Dogs',
     'Kids Toys',
     'Skin Care',
+    'Phone Cases',
     'Furniture',
     'Shoes',
     'Wedding Collection',

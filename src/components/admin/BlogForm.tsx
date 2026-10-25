@@ -12,8 +12,10 @@ import {
   CheckCircle2,
   ExternalLink,
   BookOpen,
-  Image as ImageIcon
+  Image as ImageIcon,
+  Hash,
 } from 'lucide-react';
+import { parseTagsInput } from '../../services/seoHashtags';
 
 interface BlogFormProps {
   initialBlog?: Partial<BlogPost>;
@@ -51,6 +53,11 @@ export const BlogForm: React.FC<BlogFormProps> = ({
   );
   const [amazonButtonText, setAmazonButtonText] = useState(
     initialBlog?.amazonButtonText || 'View Recommended Item on Amazon'
+  );
+  const [seoTagsInput, setSeoTagsInput] = useState<string>(
+    initialBlog?.seoTags && initialBlog.seoTags.length > 0
+      ? initialBlog.seoTags.join(', ')
+      : ''
   );
   const [author, setAuthor] = useState(initialBlog?.author || 'Parvez');
   const [readTime, setReadTime] = useState(initialBlog?.readTime || '4 min read');
@@ -139,6 +146,7 @@ export const BlogForm: React.FC<BlogFormProps> = ({
       content: content.trim(),
       amazonProductLink: amazonProductLink.trim(),
       amazonButtonText: amazonButtonText.trim() || 'View Recommended Item on Amazon',
+      seoTags: parseTagsInput(seoTagsInput),
       author: author.trim() || 'Parvez',
       readTime: readTime.trim() || '4 min read',
       featured,
@@ -388,6 +396,59 @@ export const BlogForm: React.FC<BlogFormProps> = ({
             />
           </div>
         </div>
+      </div>
+
+      {/* Google SEO #Tags / Keywords (#ট্যাগ বক্স) */}
+      <div className="p-5 sm:p-6 rounded-2xl bg-amber-50/70 border-2 border-amber-300/80 shadow-xs space-y-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
+          <label className="block text-xs font-black uppercase tracking-wider text-slate-900 flex items-center gap-2">
+            <span className="w-6 h-6 rounded-lg bg-amber-500 text-slate-950 font-black flex items-center justify-center text-xs">
+              #
+            </span>
+            <span>Google SEO #Tags / Keywords (#ট্যাগ বক্স)</span>
+          </label>
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-300 w-fit">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span>Google SEO &amp; Topic Index</span>
+          </span>
+        </div>
+
+        <div className="relative">
+          <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-amber-600 font-black text-sm pointer-events-none select-none">
+            #
+          </div>
+          <input
+            type="text"
+            value={seoTagsInput}
+            onChange={(e) => setSeoTagsInput(e.target.value)}
+            placeholder="#CatCareTips, #PetWellness, #AmazonGuide, #KittenBeds, #WinterCare"
+            className="w-full pl-8 pr-4 py-3 bg-white border border-amber-300 rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-slate-900 placeholder:text-slate-400 shadow-2xs"
+          />
+        </div>
+
+        <p className="text-xs text-slate-600 leading-relaxed">
+          এখানে আপনার ব্লগ পোস্টের জন্য <strong>#ট্যাগ</strong> লিখুন (কমা বা স্পেস দিয়ে আলাদা করুন, যেমন: <code className="bg-amber-100 text-amber-900 px-1.5 py-0.5 rounded font-mono text-[11px]">#CatCare, #PetGuide, #AmazonVerified, #TrendingNow</code>)। এই ট্যাগগুলো স্বয়ংক্রিয়ভাবে Google Search ইনডেক্সিং, ব্লগের মেটা কিওয়ার্ডস, Schema.org Article ডাটা এবং ব্লগের নিচে <strong>SEO Google # Topics</strong> সেকশনে কাজ করবে।
+        </p>
+
+        {/* Live Preview of entered tags */}
+        {seoTagsInput.trim() && (
+          <div className="pt-2 border-t border-amber-200/70">
+            <span className="text-[11px] font-bold text-slate-700 block mb-1.5">
+              Live Preview (Google ও ব্লগের পাঠকরা যেভাবে #ট্যাগ দেখবে):
+            </span>
+            <div className="flex flex-wrap gap-1.5">
+              {parseTagsInput(seoTagsInput).map((tag, idx) => (
+                <span
+                  key={idx}
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-900 text-amber-400 shadow-2xs"
+                >
+                  <Hash className="w-3 h-3 text-amber-400" />
+                  <span>{tag.replace(/^#/, '')}</span>
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* 7. Toggles: Featured & Published */}

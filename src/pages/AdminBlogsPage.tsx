@@ -33,7 +33,7 @@ export const AdminBlogsPage: React.FC = () => {
   const [actionMsg, setActionMsg] = useState<string | null>(null);
 
   useEffect(() => {
-    document.title = 'Manage Blogs — PawMart Admin';
+    document.title = 'Manage Blogs — PawMartFinder Admin';
 
     const unsub = subscribeToAllBlogs((items) => {
       setBlogs(items);

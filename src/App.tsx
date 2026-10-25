@@ -6,6 +6,7 @@ import { RouterProvider, useRouter } from './utils/navigation';
 import { Header } from './components/common/Header';
 import { Footer } from './components/common/Footer';
 import { AuthModal } from './components/common/AuthModal';
+import { IOSQuickAccessPrompt } from './components/common/IOSQuickAccessPrompt';
 
 import { Product } from './types';
 import {
@@ -39,6 +40,7 @@ import { AdminAddBlogPage } from './pages/AdminAddBlogPage';
 import { AdminEditBlogPage } from './pages/AdminEditBlogPage';
 import { AdminCategoriesPage } from './pages/AdminCategoriesPage';
 import { AdminReviewsPage } from './pages/AdminReviewsPage';
+import { AdminWebsiteReviewsPage } from './pages/AdminWebsiteReviewsPage';
 import { AdminSubscribersPage } from './pages/AdminSubscribersPage';
 import { AdminSettingsPage } from './pages/AdminSettingsPage';
 
@@ -52,6 +54,8 @@ import {
   NotFoundPage,
 } from './pages/InfoPages';
 
+import { initAllMarketingPixels, trackAllPageView } from './services/adTracking';
+
 const MainApp: React.FC = () => {
   const { path } = useRouter();
   const { isAdmin } = useAuth();
@@ -59,9 +63,9 @@ const MainApp: React.FC = () => {
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Initialize and seed on mount
+  // Initialize Marketing Pixels (Meta, TikTok, Snapchat) & Seed database on mount
   useEffect(() => {
-    // Seed initial products & blogs if database is empty
+    initAllMarketingPixels();
     seedProductsIfEmpty();
     seedInitialBlogsIfEmpty();
 
@@ -73,6 +77,11 @@ const MainApp: React.FC = () => {
 
     return () => unsubPublished();
   }, []);
+
+  // Track PageView across Meta, TikTok & Snapchat whenever route changes
+  useEffect(() => {
+    trackAllPageView(path);
+  }, [path]);
 
   // When admin is logged in, subscribe to all products
   useEffect(() => {
@@ -119,6 +128,9 @@ const MainApp: React.FC = () => {
     }
     if (cleanPath === '/admin/reviews') {
       return <AdminReviewsPage products={allProducts.length ? allProducts : publishedProducts} />;
+    }
+    if (cleanPath === '/admin/website-reviews') {
+      return <AdminWebsiteReviewsPage />;
     }
     if (cleanPath === '/admin/subscribers') {
       return <AdminSubscribersPage />;
@@ -191,6 +203,7 @@ const MainApp: React.FC = () => {
       <div className="flex-1">{renderContent()}</div>
       {!isAdminSection && <Footer />}
       <AuthModal />
+      <IOSQuickAccessPrompt />
     </div>
   );
 };

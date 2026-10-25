@@ -7,6 +7,9 @@ import { ProductCard } from './ProductCard';
 import { isVideoUrl } from '../../firebase/products';
 import { SocialShareButtons, SocialShareModal } from './SocialShareButtons';
 import { ProductReviewsSection } from './ProductReviewsSection';
+import { trackAllProductView, trackAllAffiliateClick } from '../../services/adTracking';
+import { SEOGoogleHashtags } from '../common/SEOGoogleHashtags';
+import { getProductSEOHashtags } from '../../services/seoHashtags';
 
 interface ProductDetailsProps {
   product: Product;
@@ -21,9 +24,17 @@ export const ProductDetails: React.FC<ProductDetailsProps> = ({ product, related
 
   useEffect(() => {
     setSelectedImage(product.imageUrl);
-  }, [product.imageUrl, product.id]);
+    // Track ViewContent across Meta, TikTok & Snapchat Pixels
+    trackAllProductView({
+      id: product.id,
+      title: product.title,
+      category: product.category,
+      price: product.price,
+    });
+  }, [product.imageUrl, product.id, product.title, product.category, product.price]);
 
   const favorited = isFavorite(product.id);
+  const seoHashtags = getProductSEOHashtags(product);
   // Ensure Image 1 (main cover) is first, followed by images/videos 2 through 6
   const rawGallery = product.galleryUrls && product.galleryUrls.length > 0
     ? product.galleryUrls
@@ -34,6 +45,14 @@ export const ProductDetails: React.FC<ProductDetailsProps> = ({ product, related
   ];
 
   const handleAmazonClick = () => {
+    // Track Lead / StartCheckout / Affiliate Outbound Click across Meta, TikTok & Snapchat Pixels
+    trackAllAffiliateClick({
+      id: product.id,
+      title: product.title,
+      category: product.category,
+      price: product.price,
+      url: product.amazonAffiliateLink,
+    });
     window.open(product.amazonAffiliateLink, '_blank', 'noopener,noreferrer');
   };
 
@@ -334,6 +353,13 @@ export const ProductDetails: React.FC<ProductDetailsProps> = ({ product, related
 
           </div>
         </div>
+
+        {/* SEO Google # Topics & Hashtags for Product */}
+        <SEOGoogleHashtags
+          tags={seoHashtags.tags}
+          rawHashtagsString={seoHashtags.rawHashtagsString}
+          category={product.category}
+        />
 
         {/* Customer & Admin Reviews Section */}
         <ProductReviewsSection

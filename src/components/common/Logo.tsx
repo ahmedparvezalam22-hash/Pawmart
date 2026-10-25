@@ -43,7 +43,7 @@ export const Logo: React.FC<LogoProps> = ({ className = '', size = 'md', variant
       {/* Brand Wordmark */}
       <div className="flex flex-col">
         <span className={`font-extrabold tracking-tight leading-none ${textSizes[size]} ${isLight ? 'text-white' : 'text-slate-900'}`}>
-          Paw<span className="text-amber-500">Mart</span>
+          Paw<span className="text-amber-500">MartFinder</span>
         </span>
         {size === 'lg' && (
           <span className={`text-[10px] uppercase font-semibold tracking-wider ${isLight ? 'text-slate-400' : 'text-slate-500'}`}>

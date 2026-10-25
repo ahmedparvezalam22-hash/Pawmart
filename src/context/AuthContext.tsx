@@ -165,9 +165,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  // Master administrator restriction:
+  // Strictly enforce that only ahmedparvezalam22@gmail.com can obtain admin status
   const isAdmin = Boolean(
-    profile?.role === 'admin' ||
-    (user?.email && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase())
+    user?.email && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()
   );
 
   return (

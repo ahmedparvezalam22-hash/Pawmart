@@ -17,7 +17,7 @@ export const ProfilePage: React.FC = () => {
   const [savingPass, setSavingPass] = useState(false);
 
   useEffect(() => {
-    document.title = 'My Profile — PawMart';
+    document.title = 'My Profile — PawMartFinder';
     if (!user) {
       navigate('/login');
     } else {

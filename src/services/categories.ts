@@ -38,6 +38,15 @@ export const CATEGORIES: CategoryInfo[] = [
     imageUrl: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?q=80&w=1200&auto=format&fit=crop'
   },
   {
+    id: 'Phone Cases',
+    name: 'Phone Cases',
+    slug: 'phone-cases',
+    shortDescription: 'Drop-proof armor, aesthetic patterns, magnetic ring stands, and luxury phone cases.',
+    heroHeadline: 'Protective & Trendsetting Phone Cases',
+    heroSubheadline: 'Find shock-absorbing cases, slim clear bumpers, wallet folios, and MagSafe accessories on Amazon.',
+    imageUrl: 'https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?q=80&w=1200&auto=format&fit=crop'
+  },
+  {
     id: 'T-Shirts',
     name: 'T-Shirts',
     slug: 't-shirts',
@@ -141,6 +150,9 @@ export const getCategoryBySlug = (slug: string): CategoryInfo | undefined => {
   }
   if (decoded === 'toys' || decoded === 'kid-toys') {
     return CATEGORIES.find(c => c.slug === 'kids-toys');
+  }
+  if (decoded === 'phone-case' || decoded === 'phonecases' || decoded === 'phonecase') {
+    return CATEGORIES.find(c => c.slug === 'phone-cases');
   }
   return CATEGORIES.find(c => c.slug === decoded || c.name.toLowerCase().replace(/\s+/g, '-') === decoded);
 };

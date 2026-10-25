@@ -15,6 +15,8 @@ import {
   Eye
 } from 'lucide-react';
 
+import { useSEO } from '../hooks/useSEO';
+
 interface BlogListPageProps {
   blogs?: BlogPost[];
 }
@@ -25,8 +27,14 @@ export const BlogListPage: React.FC<BlogListPageProps> = ({ blogs: propBlogs }) 
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
+  useSEO({
+    title: 'Blog & Curated Guides — Practical Pet Care & Shopping Insights',
+    description: 'Explore curated expert pet guides, product comparison breakdowns, and helpful lifestyle advice on PawMartFinder.',
+    canonicalPath: '/blog',
+    ogType: 'website',
+  });
+
   useEffect(() => {
-    document.title = 'Blog & Curated Guides — PawMart';
     window.scrollTo(0, 0);
 
     const unsub = subscribeToPublishedBlogs((items) => {
@@ -71,7 +79,7 @@ export const BlogListPage: React.FC<BlogListPageProps> = ({ blogs: propBlogs }) 
         <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 text-amber-900 text-xs font-bold uppercase tracking-wider mb-3">
             <Sparkles className="w-3.5 h-3.5 text-amber-600 fill-amber-600" />
-            <span>PawMart Editorial</span>
+            <span>PawMartFinder Editorial</span>
           </div>
           <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
             Curated Guides, Tips & Pet Stories

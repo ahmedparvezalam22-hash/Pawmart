@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { CategoryInfo, Product } from '../types';
 import { ProductCard } from '../components/products/ProductCard';
+import { CategoryProductSlider } from '../components/products/CategoryProductSlider';
 import { SearchBar } from '../components/products/SearchBar';
 import { Link } from '../utils/navigation';
 import { ChevronRight, ArrowUpDown } from 'lucide-react';
+import { useSEO } from '../hooks/useSEO';
+import { buildCategorySchema } from '../services/seoService';
 
 interface CategoryPageProps {
   category: CategoryInfo;
@@ -14,12 +17,21 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ category, products }
   const [search, setSearch] = useState('');
   const [sortBy, setSortBy] = useState<'newest' | 'title'>('newest');
 
-  useEffect(() => {
-    document.title = `${category.name} — PawMart Product Discovery`;
-  }, [category]);
+  useSEO({
+    title: `${category.name} — Curated Picks & Deals`,
+    description: category.shortDescription || category.heroSubheadline || `Discover curated ${category.name} on PawMartFinder with verified Amazon links and deals.`,
+    canonicalPath: `/${category.slug}`,
+    ogImage: category.imageUrl,
+    ogType: 'website',
+    jsonLd: buildCategorySchema(category),
+  });
 
   const categoryProducts = products.filter(
-    (p) => p.category.toLowerCase() === category.name.toLowerCase() && p.published
+    (p) =>
+      (p.category.toLowerCase() === category.name.toLowerCase() ||
+        (category.slug === 'phone-cases' &&
+          (p.category.toLowerCase() === 'phone case' || p.category.toLowerCase() === 'phone cases'))) &&
+      p.published
   );
 
   const filtered = categoryProducts.filter((p) => {
@@ -77,6 +89,13 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ category, products }
             </p>
           </div>
         </div>
+
+        {/* Category Slide Animation Carousel */}
+        {categoryProducts.length > 0 && (
+          <div className="mb-10">
+            <CategoryProductSlider category={category} products={products} />
+          </div>
+        )}
 
         {/* Search & Filter Bar */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 mb-8 bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs">

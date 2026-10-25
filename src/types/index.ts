@@ -3,6 +3,8 @@ export type ProductCategory =
   | 'Dogs'
   | 'Kids Toys'
   | 'Skin Care'
+  | 'Phone Cases'
+  | 'Phone Case'
   | 'T-Shirts'
   | 'Hoodies'
   | 'Books'
@@ -42,8 +44,10 @@ export interface Product {
   imageUrl: string;
   galleryUrls?: string[];
   viewsCount?: string;
+  price?: number;
   reviews?: ProductReview[];
   amazonAffiliateLink: string;
+  seoTags?: string[];
   featured: boolean;
   published: boolean;
   createdAt: string;
@@ -89,10 +93,25 @@ export interface BlogPost {
   viewsCount?: string;
   amazonProductLink: string;
   amazonButtonText?: string;
+  seoTags?: string[];
   author: string;
   readTime: string;
   featured: boolean;
   published: boolean;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface WebsiteReview {
+  id: string;
+  author: string;
+  authorEmail?: string;
+  rating: number; // 1 to 5
+  title?: string;
+  comment: string;
+  location?: string;
+  date: string;
+  isCustomAdmin?: boolean;
+  verified?: boolean;
+  createdAt: string;
 }

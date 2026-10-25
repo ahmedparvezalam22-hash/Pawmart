@@ -61,7 +61,7 @@ export const AdminEditBlogPage: React.FC<AdminEditBlogPageProps> = ({ blogId }) 
               <span>Edit Blog Guide</span>
             </h2>
             <p className="text-xs text-slate-500 mt-1">
-              Update article content, images, Amazon referral links, or publish status. Changes reflect immediately on PawMart.
+              Update article content, images, Amazon referral links, or publish status. Changes reflect immediately on PawMartFinder.
             </p>
           </div>
 

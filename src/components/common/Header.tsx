@@ -20,6 +20,7 @@ export const Header: React.FC = () => {
     { label: 'Dogs', href: '/dogs', icon: '🐶', desc: 'Gear & everyday essentials' },
     { label: 'Kids Toys', href: '/kids-toys', icon: '🧸', desc: 'Fun & educational toys for kids' },
     { label: 'Skin Care', href: '/skin-care', icon: '🧴', desc: 'Serums, cleansers & daily glow' },
+    { label: 'Phone Cases', href: '/phone-cases', icon: '📱', desc: 'Aesthetic, shockproof & MagSafe covers' },
     { label: 'Furniture', href: '/furniture', icon: '🛋️', desc: 'Chairs, desks & decor' },
     { label: 'Shoes', href: '/shoes', icon: '👟', desc: 'Sneakers & casual footwear' },
     { label: 'Wedding Collection', href: '/wedding-collection', icon: '💍', desc: 'Bridal wear & gifts' },
@@ -37,6 +38,7 @@ export const Header: React.FC = () => {
     { label: 'Dogs', href: '/dogs', icon: '🐶' },
     { label: 'Kids Toys', href: '/kids-toys', icon: '🧸' },
     { label: 'Skin Care', href: '/skin-care', icon: '🧴' },
+    { label: 'Phone Cases', href: '/phone-cases', icon: '📱' },
     { label: 'Furniture', href: '/furniture', icon: '🛋️' },
     { label: 'Shoes', href: '/shoes', icon: '👟' },
     { label: 'Electronics', href: '/electronics', icon: '⚡' },
@@ -388,6 +390,24 @@ export const Header: React.FC = () => {
               </span>
               <span className="text-[10px] text-amber-500 font-bold">New</span>
             </Link>
+
+            {/* iPhone Quick Access button in mobile drawer */}
+            <div className="pt-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  window.dispatchEvent(new CustomEvent('open-ios-guide'));
+                }}
+                className="w-full px-3.5 py-2.5 rounded-xl bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200/80 text-amber-900 flex items-center justify-between text-xs font-bold transition hover:from-amber-100 hover:to-orange-100"
+              >
+                <span className="flex items-center gap-2">
+                  <span>📱</span>
+                  <span>iPhone / iPad এ সহজ প্রবেশ</span>
+                </span>
+                <span className="text-[10px] font-mono bg-amber-500 text-slate-950 px-1.5 py-0.5 rounded font-extrabold">iOS</span>
+              </button>
+            </div>
           </nav>
 
           {/* Mobile Auth / Profile */}

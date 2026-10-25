@@ -28,14 +28,14 @@ export const SocialShareButtons: React.FC<SocialShareButtonsProps> = ({
   };
 
   const shareUrl = getShareUrl();
-  const shareTitle = `Check out ${product.title} on PawMart!`;
-  const shareSummary = product.shortDescription || `Discover ${product.title} with verified 100% direct official store links on PawMart.`;
+  const shareTitle = `Check out ${product.title} on PawMartFinder!`;
+  const shareSummary = product.shortDescription || `Discover ${product.title} with verified 100% direct official store links on PawMartFinder.`;
   const encodedUrl = encodeURIComponent(shareUrl);
   const encodedTitle = encodeURIComponent(shareTitle);
   const encodedSummary = encodeURIComponent(shareSummary);
   const encodedImage = encodeURIComponent(product.imageUrl);
   const emailBody = encodeURIComponent(
-    `Hi,\n\nI thought you might be interested in this product on PawMart:\n\n${product.title}\n\nCheck it out here:\n${shareUrl}\n\nHappy browsing!`
+    `Hi,\n\nI thought you might be interested in this product on PawMartFinder:\n\n${product.title}\n\nCheck it out here:\n${shareUrl}\n\nHappy browsing!`
   );
   const mailtoUrl = `mailto:${encodeURIComponent(recipientEmail.trim())}?subject=${encodedTitle}&body=${emailBody}`;
   const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(recipientEmail.trim())}&su=${encodedTitle}&body=${emailBody}`;
@@ -172,6 +172,58 @@ export const SocialShareButtons: React.FC<SocialShareButtonsProps> = ({
       icon: (
         <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
           <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.121l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.458c.536-.196 1.006.128.832.939z" />
+        </svg>
+      ),
+    },
+    {
+      name: 'Tumblr',
+      color: 'bg-[#36465D] hover:bg-[#2c394c] text-white',
+      badgeColor: 'text-[#36465D] bg-[#36465D]/10 border-[#36465D]/30',
+      action: () =>
+        openShareWindow(
+          `https://www.tumblr.com/widgets/share/tool?posttype=link&title=${encodedTitle}&canonicalUrl=${encodedUrl}&caption=${encodedSummary}`,
+          'Tumblr'
+        ),
+      icon: (
+        <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+          <path d="M14.563 24c-5.093 0-7.031-2.756-7.031-6.415V10.63H4.786V7.054c3.321-.823 4.298-3.702 4.526-6.415h3.693v5.823h4.632v4.168h-4.632v6.299c0 1.933.952 2.766 2.684 2.766h2.043V24h-3.169z" />
+        </svg>
+      ),
+    },
+    {
+      name: 'Discord',
+      color: 'bg-[#5865F2] hover:bg-[#4752C4] text-white',
+      badgeColor: 'text-[#5865F2] bg-[#5865F2]/10 border-[#5865F2]/30',
+      action: async () => {
+        onShareClick?.();
+        try {
+          if (navigator.clipboard) {
+            await navigator.clipboard.writeText(`${shareTitle}\n${shareUrl}`);
+            setShareSuccessMessage('Discord embed link copied!');
+            setTimeout(() => setShareSuccessMessage(null), 3500);
+          }
+        } catch {
+          handleCopyLink();
+        }
+      },
+      icon: (
+        <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+          <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" />
+        </svg>
+      ),
+    },
+    {
+      name: 'Quora',
+      color: 'bg-[#b92b27] hover:bg-[#a32420] text-white',
+      badgeColor: 'text-[#b92b27] bg-[#b92b27]/10 border-[#b92b27]/30',
+      action: () =>
+        openShareWindow(
+          `https://www.quora.com/share?url=${encodedUrl}&title=${encodedTitle}`,
+          'Quora'
+        ),
+      icon: (
+        <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+          <path d="M12.72 20.47a7.7 7.7 0 0 1-3.6-.9 6.8 6.8 0 0 1-2.6-2.5 7.4 7.4 0 0 1-.9-3.7 7.4 7.4 0 0 1 .9-3.7 6.8 6.8 0 0 1 2.6-2.5 7.8 7.8 0 0 1 7.2 0 6.8 6.8 0 0 1 2.6 2.5 7.4 7.4 0 0 1 .9 3.7c0 1.3-.3 2.6-.9 3.7a6.8 6.8 0 0 1-2.6 2.5 7.7 7.7 0 0 1-3.6.9zm.1-2.5c1.4 0 2.6-.5 3.5-1.5.9-1 1.4-2.2 1.4-3.7 0-1.5-.5-2.8-1.4-3.7-.9-1-2.1-1.5-3.5-1.5s-2.6.5-3.5 1.5c-.9 1-1.4 2.2-1.4 3.7 0 1.5.5 2.8 1.4 3.7.9 1 2.1 1.5 3.5 1.5zm6.8 5.7c-.5 0-1-.2-1.4-.5l-3-2.6c-.6.2-1.2.3-1.8.3a9.7 9.7 0 0 1-4.7-1.2 9.2 9.2 0 0 1-3.4-3.3 9.4 9.4 0 0 1-1.2-4.8c0-1.7.4-3.3 1.2-4.8a9.2 9.2 0 0 1 3.4-3.3 9.7 9.7 0 0 1 4.7-1.2c1.7 0 3.3.4 4.7 1.2a9.2 9.2 0 0 1 3.4 3.3 9.4 9.4 0 0 1 1.2 4.8c0 1.4-.3 2.7-.9 3.9a9.6 9.6 0 0 1-2.4 3.2l2.3 2c.2.2.3.4.3.7 0 .3-.1.6-.3.8-.2.3-.5.4-.8.4z" />
         </svg>
       ),
     },

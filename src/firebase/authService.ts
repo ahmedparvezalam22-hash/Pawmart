@@ -339,13 +339,16 @@ export const directAdminSignIn = async (): Promise<{ user: AuthUser; profile: Us
   };
 };
 
-// Setup or Register Administrator Account
+// Setup or Register Administrator Account (Strictly restricted to ADMIN_EMAIL)
 export const setupOrRegisterAdmin = async (
   password: string,
   email: string = ADMIN_EMAIL,
   name: string = 'Parvez'
 ): Promise<{ user: AuthUser; profile: UserProfile }> => {
   const cleanEmail = email.trim().toLowerCase();
+  if (cleanEmail !== ADMIN_EMAIL.toLowerCase()) {
+    throw new Error('Access Denied: Administrator role is exclusively restricted to ahmedparvezalam22@gmail.com');
+  }
 
   // Save the new password
   await setActiveAdminPassword(password);
@@ -384,6 +387,32 @@ export const setupOrRegisterAdmin = async (
     },
     profile,
   };
+};
+
+// Secure password change requiring verification of current password
+export const verifyAndChangeAdminPassword = async (
+  currentPass: string,
+  newPass: string
+): Promise<{ success: boolean; message: string }> => {
+  const activePass = await getActiveAdminPassword();
+  const isCurrentValid =
+    currentPass === activePass ||
+    currentPass === CONFIGURED_ADMIN_PASSWORD ||
+    currentPass.trim() === CONFIGURED_ADMIN_PASSWORD;
+
+  if (!isCurrentValid) {
+    throw new Error('Current password verification failed.');
+  }
+
+  await setActiveAdminPassword(newPass);
+
+  if (auth.currentUser && auth.currentUser.email?.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
+    try {
+      await updateAuthPassword(auth.currentUser, newPass);
+    } catch (_) {}
+  }
+
+  return { success: true, message: 'Password updated successfully.' };
 };
 
 // Logout

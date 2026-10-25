@@ -3,6 +3,7 @@ import { ArrowRight } from 'lucide-react';
 import { CATEGORIES } from '../../services/categories';
 import { Product } from '../../types';
 import { Link } from '../../utils/navigation';
+import { trackCategoryNavigation } from '../../services/adTracking';
 
 interface CategorySectionProps {
   products: Product[];
@@ -40,6 +41,7 @@ export const CategorySection: React.FC<CategorySectionProps> = ({ products }) =>
               <Link
                 key={cat.id}
                 to={`/${cat.slug}`}
+                onClick={() => trackCategoryNavigation(cat.name)}
                 className="group relative flex flex-col bg-white rounded-2xl border border-slate-200/80 overflow-hidden shadow-xs hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300"
               >
                 {/* Category Image */}
@@ -48,6 +50,7 @@ export const CategorySection: React.FC<CategorySectionProps> = ({ products }) =>
                     src={cat.imageUrl}
                     alt={cat.name}
                     loading="lazy"
+                    decoding="async"
                     className="h-full w-full object-cover object-center group-hover:scale-108 transition-transform duration-500 ease-out"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent opacity-80 group-hover:opacity-60 transition-opacity" />

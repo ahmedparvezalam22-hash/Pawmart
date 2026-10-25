@@ -1,0 +1,24 @@
+# Robots.txt for PawMartFinder (Google SEO Optimized)
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /admin/*
+Disallow: /login
+Disallow: /signup
+Disallow: /profile
+
+# Googlebot specific rules
+User-agent: Googlebot
+Allow: /
+Disallow: /admin/
+Disallow: /admin/*
+
+# Media Crawlers
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Googlebot-Mobile
+Allow: /
+
+# Canonical XML Sitemap
+Sitemap: https://pawmart.com/sitemap.xml

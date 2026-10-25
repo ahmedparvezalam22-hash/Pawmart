@@ -12,7 +12,7 @@ interface AdminCategoriesPageProps {
 
 export const AdminCategoriesPage: React.FC<AdminCategoriesPageProps> = ({ products }) => {
   useEffect(() => {
-    document.title = 'Categories — PawMart Admin';
+    document.title = 'Categories — PawMartFinder Admin';
   }, []);
 
   return (
@@ -24,14 +24,14 @@ export const AdminCategoriesPage: React.FC<AdminCategoriesPageProps> = ({ produc
               Configured Categories ({CATEGORIES.length})
             </h2>
             <p className="text-xs text-slate-500 mt-1">
-              Active taxonomy for grouping and discovering products across PawMart.
+              Active taxonomy for grouping and discovering products across PawMartFinder.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {CATEGORIES.map((cat) => {
-              const count = products.filter((p) => p.category === cat.id).length;
-              const publishedCount = products.filter((p) => p.category === cat.id && p.published).length;
+              const count = products.filter((p) => p.category === cat.id || (cat.id === 'Phone Cases' && (p.category as string) === 'Phone Case')).length;
+              const publishedCount = products.filter((p) => (p.category === cat.id || (cat.id === 'Phone Cases' && (p.category as string) === 'Phone Case')) && p.published).length;
 
               return (
                 <div

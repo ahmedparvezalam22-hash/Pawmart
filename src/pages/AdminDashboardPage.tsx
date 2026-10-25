@@ -10,7 +10,7 @@ interface AdminDashboardPageProps {
 
 export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({ products }) => {
   useEffect(() => {
-    document.title = 'Dashboard — PawMart Admin';
+    document.title = 'Dashboard — PawMartFinder Admin';
   }, []);
 
   return (

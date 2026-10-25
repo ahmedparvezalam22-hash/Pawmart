@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from '../utils/navigation';
 import { ChevronRight, ShieldCheck, Mail, CheckCircle2, Copy, Check, Send, ExternalLink } from 'lucide-react';
+import { useSEO } from '../hooks/useSEO';
 
 export const AboutPage: React.FC = () => {
-  useEffect(() => {
-    document.title = 'About Us — PawMart';
-  }, []);
+  useSEO({
+    title: 'About Us — Independent Product Discovery Platform',
+    description: 'Learn about PawMartFinder, our mission to curate the best pet products, fashion apparel, and books with genuine Amazon partner verification.',
+    canonicalPath: '/about',
+  });
 
   return (
     <div className="min-h-screen bg-slate-50 py-12 md:py-16">
@@ -18,17 +21,17 @@ export const AboutPage: React.FC = () => {
 
         <div className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-200 shadow-xs space-y-6">
           <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-            About PawMart
+            About PawMartFinder
           </h1>
           <p className="text-lg text-slate-600 font-medium leading-relaxed">
-            PawMart is an independent product discovery platform dedicated to uncovering and recommending high quality products for cats, dogs, lifestyle fashion, and book lovers.
+            PawMartFinder is an independent product discovery platform dedicated to uncovering and recommending high quality products for cats, dogs, lifestyle fashion, and book lovers.
           </p>
           <div className="space-y-4 text-slate-600 text-sm leading-relaxed">
             <p>
               We believe online shopping shouldn't be an overwhelming maze of sponsored ads and low-grade knockoffs. Our team curates genuine, practical, and enduring products available on Amazon, cutting through the clutter so you can make confident choices.
             </p>
             <p>
-              PawMart does not sell products directly or process payments on this website. When you find an item you love, clicking <strong>VIEW AMAZON</strong> transfers you directly to the verified product page on Amazon, where you can complete your order with standard Amazon shipping and return guarantees.
+              PawMartFinder does not sell products directly or process payments on this website. When you find an item you love, clicking <strong>VIEW AMAZON</strong> transfers you directly to the verified product page on Amazon, where you can complete your order with standard Amazon shipping and return guarantees.
             </p>
           </div>
 
@@ -58,12 +61,13 @@ export const ContactPage: React.FC = () => {
   const [formEmail, setFormEmail] = useState('');
   const [formSubject, setFormSubject] = useState('');
   const [formMessage, setFormMessage] = useState('');
-
   const supportEmail = 'supportpawmart@gmail.com';
 
-  useEffect(() => {
-    document.title = 'Contact Us — PawMart';
-  }, []);
+  useSEO({
+    title: 'Contact Us — Customer Inquiries & Brand Support',
+    description: 'Get in touch with the PawMartFinder curation team for product inquiries, affiliate partnerships, and customer support at supportpawmart@gmail.com.',
+    canonicalPath: '/contact',
+  });
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(supportEmail);
@@ -73,9 +77,9 @@ export const ContactPage: React.FC = () => {
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const subject = encodeURIComponent(formSubject.trim() || 'Inquiry from PawMart Visitor');
+    const subject = encodeURIComponent(formSubject.trim() || 'Inquiry from PawMartFinder Visitor');
     const body = encodeURIComponent(
-      `Hello PawMart Support Team,\n\nName: ${formName}\nEmail: ${formEmail}\n\nMessage:\n${formMessage}\n\nSent from PawMart Contact Page`
+      `Hello PawMartFinder Support Team,\n\nName: ${formName}\nEmail: ${formEmail}\n\nMessage:\n${formMessage}\n\nSent from PawMartFinder Contact Page`
     );
     window.location.href = `mailto:${supportEmail}?subject=${subject}&body=${body}`;
   };
@@ -92,7 +96,7 @@ export const ContactPage: React.FC = () => {
         <div className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-200 shadow-xs space-y-8">
           <div>
             <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
-              Get in Touch with PawMart
+              Get in Touch with PawMartFinder
             </h1>
             <p className="text-slate-600 text-sm leading-relaxed mt-2">
               Have questions about a curated product, partnership suggestions, or recommendation feedback? We're here to help.
@@ -111,7 +115,7 @@ export const ContactPage: React.FC = () => {
                   Click below to open your email app with our address automatically in the "To:" field.
                 </p>
                 <a
-                  href={`mailto:${supportEmail}?subject=PawMart%20Support%20Inquiry`}
+                  href={`mailto:${supportEmail}?subject=PawMartFinder%20Support%20Inquiry`}
                   className="text-base font-black text-amber-700 hover:text-amber-800 hover:underline mt-1.5 inline-flex items-center gap-1.5"
                   title="Click to email supportpawmart@gmail.com"
                 >
@@ -141,7 +145,7 @@ export const ContactPage: React.FC = () => {
               </button>
 
               <a
-                href={`mailto:${supportEmail}?subject=PawMart%20Support%20Inquiry`}
+                href={`mailto:${supportEmail}?subject=PawMartFinder%20Support%20Inquiry`}
                 className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs uppercase tracking-wider transition-all shadow-xs"
               >
                 <Send className="w-3.5 h-3.5 text-amber-400" />
@@ -236,9 +240,11 @@ export const ContactPage: React.FC = () => {
 };
 
 export const PrivacyPage: React.FC = () => {
-  useEffect(() => {
-    document.title = 'Privacy Policy — PawMart';
-  }, []);
+  useSEO({
+    title: 'Privacy Policy — User Data Protection & Security',
+    description: 'Read the PawMartFinder privacy policy detailing how your user account information, wishlists, and cookies are securely safeguarded.',
+    canonicalPath: '/privacy',
+  });
 
   return (
     <div className="min-h-screen bg-slate-50 py-12 md:py-16">
@@ -249,7 +255,7 @@ export const PrivacyPage: React.FC = () => {
           </h1>
           <p className="text-xs text-slate-400">Effective Date: January 1, 2026</p>
           <p>
-            At PawMart, your privacy is fundamental to our service. This Privacy Policy details what information we collect, how it is used, and how your data is protected.
+            At PawMartFinder, your privacy is fundamental to our service. This Privacy Policy details what information we collect, how it is used, and how your data is protected.
           </p>
           <h3 className="text-base font-bold text-slate-900 mt-6">1. Information We Collect</h3>
           <p>
@@ -257,7 +263,7 @@ export const PrivacyPage: React.FC = () => {
           </p>
           <h3 className="text-base font-bold text-slate-900 mt-6">2. Third-Party Links & Amazon</h3>
           <p>
-            Our website contains outbound links to Amazon.com. When you navigate to Amazon, their privacy policy and terms apply. PawMart does not collect, view, or process your credit card numbers, billing addresses, or payment credentials.
+            Our website contains outbound links to Amazon.com. When you navigate to Amazon, their privacy policy and terms apply. PawMartFinder does not collect, view, or process your credit card numbers, billing addresses, or payment credentials.
           </p>
           <h3 className="text-base font-bold text-slate-900 mt-6">3. Data Retention</h3>
           <p>
@@ -270,9 +276,11 @@ export const PrivacyPage: React.FC = () => {
 };
 
 export const TermsPage: React.FC = () => {
-  useEffect(() => {
-    document.title = 'Terms of Use — PawMart';
-  }, []);
+  useSEO({
+    title: 'Terms of Use — Discovery Service Guidelines',
+    description: 'Review the terms and conditions for using PawMartFinder, an independent curated product discovery and review platform.',
+    canonicalPath: '/terms',
+  });
 
   return (
     <div className="min-h-screen bg-slate-50 py-12 md:py-16">
@@ -283,11 +291,11 @@ export const TermsPage: React.FC = () => {
           </h1>
           <p className="text-xs text-slate-400">Last updated: 2026</p>
           <p>
-            Welcome to PawMart. By accessing or using our product discovery website, you agree to comply with and be bound by the following Terms of Use.
+            Welcome to PawMartFinder. By accessing or using our product discovery website, you agree to comply with and be bound by the following Terms of Use.
           </p>
           <h3 className="text-base font-bold text-slate-900 mt-6">1. Nature of the Service</h3>
           <p>
-            PawMart is a curated product discovery engine. PawMart is not an online store, seller, or marketplace. All transactions occur on Amazon.com, and customer support for product shipment, returns, or refunds must be directed to Amazon.
+            PawMartFinder is a curated product discovery engine. PawMartFinder is not an online store, seller, or marketplace. All transactions occur on Amazon.com, and customer support for product shipment, returns, or refunds must be directed to Amazon.
           </p>
           <h3 className="text-base font-bold text-slate-900 mt-6">2. Accuracy of Information</h3>
           <p>
@@ -300,9 +308,11 @@ export const TermsPage: React.FC = () => {
 };
 
 export const DisclosurePage: React.FC = () => {
-  useEffect(() => {
-    document.title = 'Store Disclosure — PawMart';
-  }, []);
+  useSEO({
+    title: 'Store & Amazon Partner Disclosure — PawMartFinder',
+    description: 'Official Amazon Services LLC Associates Program disclosure for PawMartFinder. Learn how we earn referral commissions at zero extra cost to you.',
+    canonicalPath: '/disclosure',
+  });
 
   return (
     <div className="min-h-screen bg-slate-50 py-12 md:py-16">
@@ -315,7 +325,7 @@ export const DisclosurePage: React.FC = () => {
             Amazon Partner Disclosure
           </h1>
           <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200 text-amber-900 font-semibold text-sm">
-            PawMart is a participant in the Amazon Services LLC Associates Program, a partner advertising program designed to provide a means for sites to earn fees by advertising and linking to Amazon.com.
+            PawMartFinder is a participant in the Amazon Services LLC Associates Program, a partner advertising program designed to provide a means for sites to earn fees by advertising and linking to Amazon.com.
           </div>
           <h3 className="text-base font-bold text-slate-900 mt-6">How Our Product Links Work</h3>
           <p>
@@ -334,9 +344,11 @@ export const DisclosurePage: React.FC = () => {
 export const AffiliateDisclosurePage = DisclosurePage;
 
 export const NotFoundPage: React.FC = () => {
-  useEffect(() => {
-    document.title = 'Page Not Found — PawMart';
-  }, []);
+  useSEO({
+    title: 'Page Not Found — PawMartFinder',
+    description: 'The requested page could not be found. Explore curated trending products on PawMartFinder.',
+    noIndex: true,
+  });
 
   return (
     <div className="min-h-[70vh] flex flex-col items-center justify-center p-6 text-center bg-slate-50">

@@ -12,7 +12,7 @@ interface AdminProductsPageProps {
 
 export const AdminProductsPage: React.FC<AdminProductsPageProps> = ({ products }) => {
   useEffect(() => {
-    document.title = 'Manage Products — PawMart Admin';
+    document.title = 'Manage Products — PawMartFinder Admin';
   }, []);
 
   return (

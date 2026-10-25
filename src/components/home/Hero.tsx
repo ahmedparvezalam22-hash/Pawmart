@@ -17,6 +17,7 @@ import {
 import { Link, useRouter } from '../../utils/navigation';
 import { Product } from '../../types';
 import heroLifestyleImg from '../../assets/images/hero_curated_lifestyle_1790481508227.jpg';
+import { trackAllSearch, trackCategoryNavigation } from '../../services/adTracking';
 
 interface SpotlightSlide {
   id: string;
@@ -95,6 +96,7 @@ const SPOTLIGHT_SLIDES: SpotlightSlide[] = [
 ];
 
 const TRENDING_SEARCHES = [
+  { label: '📱 Phone Cases', query: 'phone cases', href: '/phone-cases' },
   { label: '🛋️ Ergonomic Chair', query: 'ergonomic chair', href: '/furniture' },
   { label: '👟 Running Shoes', query: 'running shoes', href: '/shoes' },
   { label: '✨ Gold Bracelet', query: 'bracelet', href: '/jewelry-collection' },
@@ -109,6 +111,7 @@ const HERO_CATEGORIES = [
   { label: 'Dogs', href: '/dogs', icon: '🐶' },
   { label: 'Kids Toys', href: '/kids-toys', icon: '🧸' },
   { label: 'Skin Care', href: '/skin-care', icon: '🧴' },
+  { label: 'Phone Cases', href: '/phone-cases', icon: '📱' },
   { label: 'Furniture', href: '/furniture', icon: '🛋️' },
   { label: 'Shoes', href: '/shoes', icon: '👟' },
   { label: 'Wedding Collection', href: '/wedding-collection', icon: '💍' },
@@ -178,11 +181,13 @@ export const Hero: React.FC<HeroProps> = ({ products = [] }) => {
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
+      trackAllSearch(searchQuery.trim());
       navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
 
   const handleQuickTagClick = (query: string) => {
+    trackAllSearch(query);
     navigate(`/search?q=${encodeURIComponent(query)}`);
   };
 
@@ -260,6 +265,7 @@ export const Hero: React.FC<HeroProps> = ({ products = [] }) => {
                 <Link
                   key={item.label}
                   to={item.href}
+                  onClick={() => trackAllSearch(item.query)}
                   className="px-3 py-1 rounded-full bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-amber-300 border border-slate-800 hover:border-amber-500/40 text-xs font-medium transition-all cursor-pointer"
                 >
                   {item.label}
@@ -288,6 +294,7 @@ export const Hero: React.FC<HeroProps> = ({ products = [] }) => {
                   <Link
                     key={cat.href}
                     to={cat.href}
+                    onClick={() => trackCategoryNavigation(cat.label)}
                     className={
                       idx === 0
                         ? 'inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-extrabold text-xs shadow-md shadow-amber-500/15 transition-all hover:-translate-y-0.5'
@@ -337,11 +344,13 @@ export const Hero: React.FC<HeroProps> = ({ products = [] }) => {
                   className="flex w-full h-full transition-transform duration-700 ease-in-out"
                   style={{ transform: `translateX(-${activeSlide * 100}%)` }}
                 >
-                  {slides.map((slide) => (
+                  {slides.map((slide, idx) => (
                     <div key={slide.id} className="w-full h-full flex-shrink-0 relative">
                       <img
                         src={slide.imageUrl}
                         alt={slide.title}
+                        loading={idx === 0 ? 'eager' : 'lazy'}
+                        decoding="async"
                         className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-slate-950/30" />

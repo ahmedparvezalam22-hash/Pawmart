@@ -7,36 +7,69 @@ service cloud.firestore {
       return request.auth != null;
     }
 
-    // Products collection: public read and write for catalog management
+    // Master Administrator verification:
+    // Strictly restricts privileged actions to ahmedparvezalam22@gmail.com
+    function isMasterAdmin() {
+      return isAuthenticated() &&
+             request.auth.token.email != null &&
+             request.auth.token.email.lower() == 'ahmedparvezalam22@gmail.com';
+    }
+
+    // Products collection:
+    // - Public read for all visitors
+    // - Creation and deletion strictly restricted to master admin
+    // - Updates allowed for master admin, or visitors ONLY if appending reviews/ratings
     match /products/{productId} {
-      allow read, write: if true;
+      allow read: if true;
+      allow create, delete: if isMasterAdmin();
+      allow update: if isMasterAdmin() || (
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reviews', 'updatedAt', 'rating', 'reviewsCount'])
+      );
     }
 
-    // Blogs collection: public read, write for blog management
+    // Blogs collection:
+    // - Public read for all visitors
+    // - Creation, update, delete strictly restricted to master admin
     match /blogs/{blogId} {
-      allow read, write: if true;
+      allow read: if true;
+      allow write: if isMasterAdmin();
     }
 
-    // User profiles & favorites
+    // User profiles & favorites:
+    // - Users can read and write only their own profile document
+    // - Master admin has full access for administrative oversight
     match /users/{userId} {
-      allow read, write: if true;
+      allow read: if true;
+      allow write: if isAuthenticated() && (request.auth.uid == userId || isMasterAdmin());
       
       // Nested favorites subcollection
       match /favorites/{favoriteId} {
-        allow read, write: if true;
+        allow read, write: if isAuthenticated() && (request.auth.uid == userId || isMasterAdmin());
       }
     }
 
-    // System settings & admin credentials storage
+    // System settings & tracking keys:
+    // - Strictly restricted to master admin
     match /settings/{settingId} {
-      allow read, write: if true;
+      allow read, write: if isMasterAdmin();
     }
 
-    // Email subscribers collection
+    // Email subscribers collection:
+    // - Public create (visitors can subscribe to newsletter)
+    // - Read, update, and delete strictly restricted to master admin
     match /subscribers/{subscriberId} {
-      allow read, write: if true;
+      allow create: if true;
+      allow read, update, delete: if isMasterAdmin();
+    }
+
+    // Website testimonials & reviews:
+    // - Public read for homepage testimonials carousel
+    // - Public create so visitors can submit honest feedback
+    // - Update and deletion strictly restricted to master admin
+    match /website_reviews/{reviewId} {
+      allow read: if true;
+      allow create: if true;
+      allow update, delete: if isMasterAdmin();
     }
   }
 }
-
-

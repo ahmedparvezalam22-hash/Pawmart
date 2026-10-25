@@ -4,6 +4,7 @@ import { Product } from '../../types';
 import { useFavorites } from '../../context/FavoritesContext';
 import { useRouter } from '../../utils/navigation';
 import { isVideoUrl } from '../../firebase/products';
+import { trackAllAffiliateClick } from '../../services/adTracking';
 
 interface ProductCardProps {
   product: Product;
@@ -28,6 +29,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, priority = fa
 
   const handleAmazonClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+    // Track conversion across Meta Pixel, TikTok Pixel & Snapchat Pixel
+    trackAllAffiliateClick({
+      id: product.id,
+      title: product.title,
+      category: product.category,
+      price: product.price,
+      url: product.amazonAffiliateLink,
+    });
     // Opens exact admin Amazon affiliate link in new tab securely
     window.open(product.amazonAffiliateLink, '_blank', 'noopener,noreferrer');
   };
@@ -43,6 +52,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, priority = fa
           src={product.imageUrl}
           alt={product.title}
           loading={priority ? 'eager' : 'lazy'}
+          decoding="async"
           className="h-full w-full object-cover object-center group-hover:scale-106 transition-transform duration-500 ease-out"
         />
 

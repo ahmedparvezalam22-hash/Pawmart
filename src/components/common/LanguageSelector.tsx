@@ -129,7 +129,7 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
                     Select Your Country & Language
                   </h3>
                   <p className="text-xs text-slate-400">
-                    Translate PawMart immediately into your native language
+                    Translate PawMartFinder immediately into your native language
                   </p>
                 </div>
               </div>

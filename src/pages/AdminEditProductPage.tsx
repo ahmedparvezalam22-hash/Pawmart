@@ -18,7 +18,7 @@ export const AdminEditProductPage: React.FC<AdminEditProductPageProps> = ({ prod
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    document.title = 'Edit Product — PawMart Admin';
+    document.title = 'Edit Product — PawMartFinder Admin';
     const fetchProd = async () => {
       setLoading(true);
       const data = await getProductByIdOrSlug(productId);
@@ -50,7 +50,7 @@ export const AdminEditProductPage: React.FC<AdminEditProductPageProps> = ({ prod
               Edit Product Details
             </h2>
             <p className="text-xs text-slate-500 mt-1">
-              Update information, product links, or publish status. Changes reflect immediately on PawMart.
+              Update information, product links, or publish status. Changes reflect immediately on PawMartFinder.
             </p>
           </div>
 
